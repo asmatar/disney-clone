@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { setMovies } from '../features/movie/movieSlice';
 import db from '../firebase';
 import ImgSlider from './ImgSlider';
 import Movies from './Movies';
 import Viewers from './Viewers';
 
 function Home() {
-
+    const dispatch = useDispatch()
     useEffect(()=>{
         db.collection('movies').onSnapshot((snapshot)=>{
             //console.log(snapshot)
@@ -14,7 +16,9 @@ function Home() {
                 // console.log(doc.data())
                 return { id: doc.id, ...doc.data() }
             })
-            console.log(tempMovies)
+            // console.log(tempMovies)
+            dispatch(setMovies(tempMovies))
+
         })
     }, [])
 
