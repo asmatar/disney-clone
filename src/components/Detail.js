@@ -1,14 +1,37 @@
-import React from 'react'
-import styled from 'styled-components'
-
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import db from '../firebase';
 function Detail() {
+
+    const {id} = useParams();
+    // console.log(id)
+    const [movie, setMovie] = useState({})
+    useEffect(()=> {
+        // gra the movie info from database
+        db.collection('movies')
+        .doc(id)
+        .get()
+        .then((doc)=> {
+            if (doc.exists) {
+                // save the movie data
+                setMovie(doc.data())
+            } else {
+                //redirect to home page if the movie doesn't exist
+
+            }
+        })
+    }, [])
+
+    console.log('movie is ', movie)
+
     return (
         <Container>
             <Background>
-                <img src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/4F39B7E16726ECF419DD7C49E011DD95099AA20A962B0B10AA1881A70661CE45/scale?width=1440&aspectRatio=1.78&format=jpeg" alt="img details" />
+                <img src={movie.backgroundImg} alt="img details" />
             </Background>
             <ImageTitle>
-                <img src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/D7AEE1F05D10FC37C873176AAA26F777FC1B71E7A6563F36C6B1B497CAB1CEC2/scale?width=1440&aspectRatio=1.78" alt="image title" />
+                <img src={movie.cardImg} alt="image title" />
             </ImageTitle>
             <Controls>
                 <PlayButton>
@@ -29,12 +52,10 @@ function Detail() {
                 </GroupWatchButton>
             </Controls>
             <Subtitle>
-                2018 ° 7m ° Family, fantasy, Kids, Animation
+                {movie.subTitle}
             </Subtitle>
             <Description>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sit doloremque consectetur asperiores aliquam aliquid cumque! Accusantium esse consectetur optio ad et culpa error eius dolor in quaerat, itaque repudiandae corrupti?
-                Accusantium, fugit modi tempora assumenda et quod perspiciatis. Incidunt, ex. Culpa consectetur reiciendis omnis quis iusto eveniet, consequatur molestias corporis ad commodi, ex, vel quod voluptatem quia rerum odio sit?
-                Officia molestias modi dicta aliquid reprehenderit voluptates animi voluptatum nam. Eaque, mollitia, recusandae sint, magni a cumque omnis fugiat similique reiciendis pariatur iste blanditiis perferendis animi quaerat! Aspernatur, magni iure?
+               {movie.description}
             </Description>
         </Container>
     )
