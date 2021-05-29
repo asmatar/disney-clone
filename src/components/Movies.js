@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { selectMovies } from '../features/movie/movieSlice';
-
 function Movies() {
     const movies = useSelector(selectMovies)
 
@@ -17,8 +17,10 @@ function Movies() {
                 movies &&
                     movies.map((movie) => {
                         return (
-                        <Wrap>
-                            <img src={movie.cardImg} alt="wrape.com/redirect?e movies" />
+                        <Wrap key = {movie.id}>
+                            <Link to={`/detail/${movie.id}`}>
+                                <img src={movie.cardImg} alt="movies card" />
+                            </Link>
                         </Wrap>
                         )
                     })
