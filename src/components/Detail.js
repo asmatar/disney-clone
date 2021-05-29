@@ -21,7 +21,7 @@ function Detail() {
 
             }
         })
-    }, [])
+    }, [id])
 
     console.log('movie is ', movie)
 
