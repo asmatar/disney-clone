@@ -38,7 +38,7 @@ function Header() {
 
 export default Header
 
-const Nav = styled.nav`
+const Nav = styled.nav`nav
 height: 70 px;
 background : #090b13;
 display: flex;
@@ -67,6 +67,30 @@ const NavMenu = styled.div`
         span {
             font-size: 13px;
             letter-spacing: 1.42px;
+            position: relative;
+
+            &:after {
+                content: "";
+                height: 2px;
+                background: white;
+                position: absolute;
+                left: 0;
+                right:0;
+                bottom: -6px;
+                // we hide the div and make it begin to 0 ( doesn't exist)
+                opacity: 0;
+                transform-origin: left center;
+                transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+                transform: scaleX(0);
+            }
+        }
+
+        &:hover {
+            span:after {
+                // this div will pass from 0 to 1
+                transform: scaleX(1);
+                opacity: 1;
+            }
         }
     }
 `
