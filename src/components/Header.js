@@ -1,11 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { selectUserName, selectUserPhoto, setUserLogin } from '../features/user/userSlice';
+import { selectUserName, selectUserPhoto, setSignOut, setUserLogin } from '../features/user/userSlice';
 import { auth, provider } from '../firebase';
 
 function Header() {
-
+    const history = useHistory()
     const userName = useSelector(selectUserName);
     const userPhoto = useSelector(selectUserPhoto);
 
@@ -20,6 +21,16 @@ function Header() {
                 email: user.email,
                 photo: user.photoURL
             }))
+            history.push('/')
+        })
+    }
+
+    const signOut = () => {
+        auth.signOut()
+        .then(()=> {
+            // set signOUt is in userSlice, the action
+            dispatch(setSignOut());
+            history.push('/login')
         })
     }
 
@@ -65,7 +76,7 @@ function Header() {
                         <span>SERIES</span>
                     </a>
                 </NavMenu>
-                <UserImg src='/images/arthur.jpg' />
+                <UserImg onClick = {signOut} src='/images/arthur.jpg' />
                 </>
             }
         </Nav>
