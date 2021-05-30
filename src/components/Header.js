@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -6,11 +6,25 @@ import { selectUserName, selectUserPhoto, setSignOut, setUserLogin } from '../fe
 import { auth, provider } from '../firebase';
 
 function Header() {
+
     const history = useHistory()
     const userName = useSelector(selectUserName);
     const userPhoto = useSelector(selectUserPhoto);
+    const dispatch = useDispatch()
+    // Au refresh, pour ne pas perder le state, on va dispatch setUserLogin
+    useEffect(() => {
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                dispatch(setUserLogin({
+                    name: user.displayName,
+                    email: user.email,
+                    photo: user.photoURL
+                }))
+                history.push('/')
+            }
+        })
+    }, [])
 
-        const dispatch = useDispatch()
     const signIn = () => {
         auth.signInWithPopup(provider)
         .then((result) => {
