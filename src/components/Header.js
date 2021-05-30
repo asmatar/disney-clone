@@ -1,13 +1,27 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { selectUserName, selectUserPhoto } from '../features/user/userSlice';
+import { selectUserName, selectUserPhoto, setUserLogin } from '../features/user/userSlice';
+import { auth, provider } from '../firebase';
 
 function Header() {
 
     const userName = useSelector(selectUserName);
     const userPhoto = useSelector(selectUserPhoto);
 
+        const dispatch = useDispatch()
+    const signIn = () => {
+        auth.signInWithPopup(provider)
+        .then((result) => {
+            console.log(result)
+            let user = result.user
+            dispatch(setUserLogin({
+                name: user.displayName,
+                email: user.email,
+                photo: user.photoURL
+            }))
+        })
+    }
 
     return (
         <Nav>
@@ -19,7 +33,7 @@ function Header() {
                 ? 
                 (
                     <LoginContainer>
-                        <Login>Login</Login>
+                        <Login onClick = {signIn}>Login</Login>
                     </LoginContainer>
                 )
                 //otherwise ( if userName exist we show the menu)
