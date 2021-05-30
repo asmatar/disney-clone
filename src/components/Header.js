@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { selectUserName } from '../features/user/userSlice';
+import { selectUserName, selectUserPhoto } from '../features/user/userSlice';
 
 function Header() {
 
@@ -18,7 +18,9 @@ function Header() {
                 // we show the login button
                 ? 
                 (
-                <Login>Login</Login>
+                    <LoginContainer>
+                        <Login>Login</Login>
+                    </LoginContainer>
                 )
                 //otherwise ( if userName exist we show the menu)
                 :
@@ -123,4 +125,25 @@ const UserImg = styled.img`
     cursor: pointer;
 `
 
-const Login = styled.div``
+const Login = styled.div`
+    border-radius: 4px;
+    border: 1px solid #f9f9f9;
+    padding: 8px 16px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    background-color: rgba(0, 0, 0, 0.6);
+    transition: all 0.2s ease 0s;
+    cursor: pointer;
+
+    &:hover {
+        background-color: white;
+        color: black;
+        border-color: transparent;
+    }
+`
+const LoginContainer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    flex:1;
+
+`
