@@ -1,38 +1,57 @@
-import React from 'react'
-import styled from 'styled-components'
-
+import React from 'react';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
+import { selectUserName } from '../features/user/userSlice';
 
 function Header() {
+
+    const userName = useSelector(selectUserName);
+    const userPhoto = useSelector(selectUserPhoto);
+
+
     return (
         <Nav>
             <Logo src='/images/logo.svg' />
-            <NavMenu>
-                <a>
-                    <img src="/images/home-icon.svg" alt="" />
-                    <span>HOME</span>
-                </a>
-                <a>
-                    <img src="/images/search-icon.svg" alt="" />
-                    <span>SEARCH</span>
-                </a>
-                <a>
-                    <img src="/images/watchlist-icon.svg" alt="" />
-                    <span>WATCHLIST</span>
-                </a>
-                <a>
-                    <img src="/images/original-icon.svg" alt="" />
-                    <span>ORIGINALS</span>
-                </a>
-                <a>
-                    <img src="/images/movie-icon.svg" alt="" />
-                    <span>MOVIES</span>
-                </a>
-                <a>
-                    <img src="/images/series-icon.svg" alt="" />
-                    <span>SERIES</span>
-                </a>
-            </NavMenu>
-            <UserImg src='/images/arthur.jpg' />
+            {
+                //  if userName doesn't exist 
+                !userName 
+                // we show the login button
+                ? 
+                (
+                <Login>Login</Login>
+                )
+                //otherwise ( if userName exist we show the menu)
+                :
+                <>
+                <NavMenu>
+                    <a>
+                        <img src="/images/home-icon.svg" alt="" />
+                        <span>HOME</span>
+                    </a>
+                    <a>
+                        <img src="/images/search-icon.svg" alt="" />
+                        <span>SEARCH</span>
+                    </a>
+                    <a>
+                        <img src="/images/watchlist-icon.svg" alt="" />
+                        <span>WATCHLIST</span>
+                    </a>
+                    <a>
+                        <img src="/images/original-icon.svg" alt="" />
+                        <span>ORIGINALS</span>
+                    </a>
+                    <a>
+                        <img src="/images/movie-icon.svg" alt="" />
+                        <span>MOVIES</span>
+                    </a>
+                    <a>
+                        <img src="/images/series-icon.svg" alt="" />
+                        <span>SERIES</span>
+                    </a>
+                </NavMenu>
+                <UserImg src='/images/arthur.jpg' />
+                </>
+            }
         </Nav>
     )
 }
@@ -103,3 +122,5 @@ const UserImg = styled.img`
     border-radius: 50%;
     cursor: pointer;
 `
+
+const Login = styled.div``
